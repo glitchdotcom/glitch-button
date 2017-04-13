@@ -1,0 +1,75 @@
+/* style for button.glitch.me documentation page :) */
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Helvetica, Arial, sans-serif;
+  margin: 2em auto;
+  width: 100%;
+  max-width: 700px;
+}
+
+header {
+  background: cyan;
+  padding: 1.5em 3em;
+  margin: 2em 0;
+}
+
+h1 {
+  font-weight: bold;
+  background: url(https://gomix.com/slack-icon.png) no-repeat;
+  padding: 0 0 0 2em;
+  line-height: 1.7em;
+  margin: 0;
+  font-size: 3em;
+}
+
+section {
+  margin: 2em 0 4em;
+}
+
+p {
+  line-height: 1.5em;  
+}
+
+code {
+  font-size: 1.2em;
+  color: #555;
+}
+
+input {
+  padding: 1em;
+  background: #efefef;
+  font-size: 1em;
+}
+
+section .glitch-remix {
+  position: relative;
+  top: 10px;
+  left: 5px;
+}
+
+input[type="text"],
+textarea {
+  display: block;
+  margin: 1em;
+  width: 100%;
+  max-width: 600px;
+  padding: .5em;
+  font-size: 1em;
+  background: #efefef;
+}
+
+textarea {
+  height: 6em;
+  line-height: 1.5em;
+}
+
+.glitchButton.inline {
+  position: relative;
+  top: 10px;
+  left: 10px;
+  margin-right: 20px;
+}

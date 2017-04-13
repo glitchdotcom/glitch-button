@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Glitch Button Embed</title>
+    <link id="favicon" rel="icon" href="https://glitch.com/favicon-app.ico" type="image/x-icon">
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="/style.css" />
+  </head>
+  <body>
+    <header>
+      <h1>Glitch Button Embed</h1>
+    </header>
+
+    <main>
+      
+      <section>
+        <h2>Why add this button to my project?</h2>
+        
+        <p>
+          Jenn said so.
+        </p>
+           
+      </section>
+      
+      <section>
+        <h2>
+          Add the button!
+        </h2>
+        
+        <p>
+          Users can already remix any public app on Glitch, and we want to give project owners control over their app's look,
+          so we do not force buttons into any apps. What we do want, though, is for our community to <em>encourage</em> 
+          others to remix and learn more about their apps, so we built a widget that you can include in your projects to generate 
+          our neat little button wherever you like.
+        </p>
+        
+        <p>
+          Here's what it looks like: 
+        </p>
+        
+        <div class="glitchButton"></div>
+        
+        <p>
+          We've set you up with a simple way to add the Glitch button to <em>your</em> project:
+        </p>
+        
+        <section>
+          <h3>
+            Add our Button Embed script
+          </h3>
+
+          <!-- copy button -->
+          <label for="copy-script">Copy and paste the following snippet to a project's view:</label>
+          <input id="copy-script" type="text" value="<script src=&quot;https://button.glitch.me/button.js&quot;></script>" />
+
+          <p>The button will be added to any element with <code>class="glitchButton"</code>.</p>
+
+          <p>For example, this project's index view in <code>views/index.html</code> shows an empty <code>div</code> element.</p>
+
+          <label for="copy-element">Copy and paste this wherever you want the button to show:</label>
+          <input id="copy-element" type="text" value="<div class=&quot;glitchButton&quot;></div>" />
+
+          <p>On page load, the button will appear. You can use CSS to position it any way you'd like!</p>
+        </section>
+        
+        <section>
+          <h3>
+            Position your button
+          </h3>
+          
+          <p>
+            We don't want to lock you into button position, so to set it yourself you can reference the <code>glitchButton</code> 
+            class in your CSS or use an inline <code>style</code> attribute.
+          </p>
+          
+          <label for="copy-position-element">Copy and paste the following snippet if you want to, for example, add a button 
+          and have it fixed to the top right of your app:</label>
+          <input id="copy-position-element" type="text" value="<div class=&quot;glitchButton&quot; style=&quot;position:fixed;top:20px;right:20px;&quot;></div>">
+        </section>
+        
+        <section>
+          <h3>
+            Embed one of our stylesheets
+          </h3>
+          
+          <p>
+            Sometimes you might not know how to or want to style your app, so we have an already written theme called "glitch" which 
+            you can add to your button script embed.
+          </p>
+          
+          <label for="copy-style-script">Copy and paste the following snippet (instead of the above script tag):</label>
+          <input id="copy-style-script" type="text" value="<script src=&quot;https://button.glitch.me/button.js&quot; data-style=&quot;glitch&quot;></script>" />
+        
+        </section>
+
+      </section>
+      
+      <section>
+        <h2>
+          Happy Glitching! 
+        </h2>
+        
+        <p>
+          We want to know about all the cool stuff you're making, remixed or not–let us know it by tweeting 
+          <a href="http://twitter.com/glitch">@glitch</a>! 
+        </p>
+      </section>
+    </main>
+    
+    <div class="glitchButton" style="position:fixed;top:20px;right:20px;"></div>
+  
+    <script src="https://button.glitch.me/button.js"></script>
+  </body>
+</html>

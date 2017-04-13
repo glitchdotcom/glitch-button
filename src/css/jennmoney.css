@@ -1,0 +1,13 @@
+* {
+  font-family: monospace;
+}
+
+html {
+  border: 8px solid magenta;
+}
+
+body {
+  max-width: 100%;
+  padding: 0px 2em;
+  font-size: 1.4em;
+}
