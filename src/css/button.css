@@ -35,7 +35,6 @@
 }
 
 .glitchButton .buttonLinks {
-  display:block;
   background-color:#fff;
   border:2px solid #000;
   border-radius:5px;
@@ -106,6 +105,10 @@
 .glitchButton .users ul li {
   list-style: none;
   margin: 5px 0;
+}
+
+.glitchButton .users ul li a {
+  text-decoration: none;
 }
     
 .glitchButton .users .name { 

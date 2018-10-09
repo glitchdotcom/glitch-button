@@ -12,6 +12,7 @@
 
   // define the default url, button elements class names and button svg source
   const projectURL = '//button.glitch.me';
+  const glitchProfileURL = '//glitch.com/@';
   const glitchClass = 'glitchButton';
   const glitchButtonClass = 'glitchButtonElement';
   const glitchOpenWindowClass = 'glitchOpenWindowElement';
@@ -77,16 +78,18 @@
     }
   };
   
-    
   // get project info and do what we came here for - embed cool glitch buttons!
   axios.get(glitchEndpoint + projectName)
     .then( ({ data }) => {
+      if ( !data ) {
+        return null; 
+      }
+    
       const { domain, description, users } = data;
       const usersCodeArray = users.map(user => {
-        return `<li><img width="25px" src="${user.avatarUrl}" alt="avatar of ${user.login}" />
-          <span class="name">${user.login}</span>
-        </li>`;
-      });
+        return `<li><a href="${glitchProfileURL}${user.login}"><img width="25px" src="${user.avatarUrl}" alt="avatar of ${user.login}" />
+                    <span class="name">${user.login}</span></a></li>`;
+      });    
       const remixLink = `<a class="buttonLinks remix" href="https://glitch.com/edit/#!/remix/${domain}">Remix on Glitch</a>`;
       const viewCodeLink = `<a class="buttonLinks viewCode" href="https://glitch.com/edit/#!/${domain}">View Source</a>`;
       
