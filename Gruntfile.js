@@ -6,7 +6,7 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         options: {
-          transform: [['babelify', { presets: ['es2015'] }]]
+          transform: [['babelify', { "presets": ["@babel/preset-env"] }]]
         },
         files: {
           "src/button-bundled.js": 'src/button.js'
