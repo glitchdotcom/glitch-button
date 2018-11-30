@@ -6,6 +6,11 @@
 'use strict';
 
 (function() {
+  // don't show button if it's a custom domain
+  if ( location.hostname.indexOf('glitch.me') === -1 && location.hostname.indexOf('glitch.com') === -1 ) {
+    return;
+  }
+  
   // set up endpoint request for the glitch project information
   const axios = require('axios');
   const glitchEndpoint = 'https://api.glitch.com/projects/';
