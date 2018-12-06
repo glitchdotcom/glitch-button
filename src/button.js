@@ -92,11 +92,11 @@
     
       const { domain, description, users } = data;
       const usersCodeArray = users.map(user => {
-        return `<li><a href="${glitchProfileURL}${user.login}"><img width="25px" src="${user.avatarUrl}" alt="avatar of ${user.login}" />
+        return `<li><a href="${glitchProfileURL}${user.login}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton"><img width="25px" src="${user.avatarUrl}" alt="avatar of ${user.login}" />
                     <span class="name">${user.login}</span></a></li>`;
       });    
-      const remixLink = `<a class="buttonLinks remix" href="https://glitch.com/edit/#!/remix/${domain}">Remix on Glitch</a>`;
-      const viewCodeLink = `<a class="buttonLinks viewCode" href="https://glitch.com/edit/#!/${domain}">View Source</a>`;
+      const remixLink = `<a class="buttonLinks remix" href="https://glitch.com/edit/#!/remix/${domain}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton">Remix on Glitch</a>`;
+      const viewCodeLink = `<a class="buttonLinks viewCode" href="https://glitch.com/edit/#!/${domain}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton">View Source</a>`;
       
       // generate the html for inside the button tooltip
       const glitchProjectInfoHTML = 
