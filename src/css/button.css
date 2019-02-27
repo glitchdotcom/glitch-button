@@ -29,19 +29,19 @@
   background:#fff;
   border:2px solid #000;
   color:#000;
-  padding:15px;
   width:auto;
   min-width:200px;
 }
 
 .glitchButton .buttonLinks {
+  font-family: Helvetica, Arial, sans-serif;
   background-color:#fff;
   border:2px solid #000;
   border-radius:5px;
-  font-weight:600;
   font-size:14px;
+  font-weight:bold;
   display:inline-block;
-  padding:6px 36px 6px 10px;
+  padding:7px 36px 5px 10px;
   text-decoration:none;
   color:#000;
   margin:5px 0;
@@ -52,6 +52,7 @@
 
 .glitchButton .buttonLinks:hover {
   background-color: #f5f5f5;
+  cursor: pointer;
 }
 
 .glitchButton .buttonLinks.viewCode {
@@ -62,8 +63,27 @@
   background-image: url(https://glitch.com/edit/images/emojis/microphone.png);
 }
 
+.glitchButton .buttonLinks.embed {
+  background-image: url(https://glitch.com/edit/images/emojis/bento.png);
+}
+
+.glitchButton .project .projectInfo{
+  padding: 15px;
+  border-bottom: 1px solid #9b9b9b;
+}
+
+.glitchButton .project .projectActions{
+  background: white;
+  padding: 15px;
+}
+
+.glitchButton .project .projectEmbed{
+  padding: 15px;
+  width: 600px;
+}
+
 .glitchButton .project .name {
-  font-size:20px;
+  font-size:18px;
   font-weight:bold;
 }
 
@@ -71,8 +91,9 @@
   font-size:14px;
 }
 
-.glitchButton .project .footer {
+.glitchButton .project .project-actions {
   margin-top:10px;
+  padding: 15px;
 }
 
 .glitchButton .tooltip.border {
@@ -110,9 +131,63 @@
 .glitchButton .users ul li a {
   text-decoration: none;
 }
+
+.glitchButton .users ul li img{
+  border-radius: 50%;
+}
     
 .glitchButton .users .name { 
   font-size: 14px;
   vertical-align: top;
   line-height: 1.8em;
+}
+
+.glitchButton .glitchOpenWindowElement .projectActions label {
+  display: block;
+  margin: 1em 0;
+  line-height: 1.5em;
+}
+
+.glitchButton .glitchOpenWindowElement .projectEmbed textarea {
+  display: block;
+  border-radius: 3px;
+  border-color: rgb(195, 195, 195);
+  height: 205px;
+  margin: 1em 0;
+}
+
+.glitchButton .glitchOpenWindowElement .projectActions .embedGlitchCode {
+  display: none; 
+}
+
+/* custom positions */
+.glitchButton.position-x-right .glitchOpenWindowElement {
+  right: inherit;
+  left: -15px;
+}
+
+.glitchButton.position-x-right .glitchOpenWindowElement .tooltip {
+  right: inherit;
+  left: 3px;
+}
+
+.glitchButton.position-y-top .glitchOpenWindowElement {
+  top: inherit;
+  bottom: 110%;
+}
+
+.glitchButton.position-y-top .glitchOpenWindowElement .tooltip {
+  top: inherit;
+  bottom: -10px;
+  border-bottom: 0;
+  border-top: 9px solid black;
+}
+
+.glitchButton.position-y-top .glitchOpenWindowElement .tooltip.fill {
+  border-top: 10px solid white;
+  bottom: -8px;
+}
+
+.glitchButton.position-y-top .glitchButtonElement {
+  background-image: url(https://glitch.com/edit/images/background-light/icons/up-arrow.svg);
 }
