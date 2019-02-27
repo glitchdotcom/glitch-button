@@ -6,10 +6,20 @@ module.exports = function(grunt) {
     browserify: {
       dist: {
         options: {
-          transform: [['babelify', { "presets": ["@babel/preset-env"] }]]
+          transform: [
+            ['babelify', { 
+              presets: [
+                ["@babel/preset-env", {
+                  targets: {
+                    browsers: ["last 1 version", "ie>=11" ]
+                  }
+                }]
+              ]
+            }]
+          ]
         },
         files: {
-          "src/button-bundled.js": 'src/button.js'
+          "public/button-bundled.js": 'src/button.js'
         }
       }
     },
@@ -18,7 +28,7 @@ module.exports = function(grunt) {
         banner: '/*! <%= pkg.name %> <%= grunt.template.today("yyyy-mm-dd") %> */\n'
       },
       build: {
-        src: 'src/button-bundled.js',
+        src: 'public/button-bundled.js',
         dest: 'public/button.js'
       }
     },
@@ -33,17 +43,16 @@ module.exports = function(grunt) {
       }
     },
     clean: {
-      css: ['src/button.css'],
-      js: ['src/button-bundled.js'],
-    },
+      js: ['public/button-bundled.js']
+    }
   });
 
-  // Load the plugins that provide the "babel" and "uglify" tasks
+  // Load the plugins that provide the "cssmin" and "uglify" tasks
   grunt.loadNpmTasks('grunt-browserify');
-  grunt.loadNpmTasks('grunt-contrib-uglify');
+  grunt.loadNpmTasks('grunt-contrib-uglify-es');
   grunt.loadNpmTasks('grunt-contrib-cssmin');
   grunt.loadNpmTasks('grunt-contrib-clean');
 
   // Default task(s).
-  grunt.registerTask('default', ['browserify', 'uglify', 'cssmin', 'clean']);
+  grunt.registerTask('default', ['browserify','uglify', 'cssmin','clean']);
 };

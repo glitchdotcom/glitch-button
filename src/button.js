@@ -1,6 +1,6 @@
 /**
 *  button.js
-*  standardizes the glitch button embed
+*  builds and displays the glitch button embed
 */
 
 'use strict';
@@ -12,10 +12,13 @@
   }
   
   // set up endpoint request for the glitch project information
+  const { polyfill } = require('es6-promise');
+  polyfill();
   const axios = require('axios');
   const glitchEndpoint = 'https://api.glitch.com/projects/';
 
   // define the default url, button elements class names and button svg source
+  // if you remixed ~button make sure projectURL is updated to be your remix :)
   const projectURL = '//button.glitch.me';
   const glitchProfileURL = '//glitch.com/@';
   const glitchClass = 'glitchButton';
@@ -23,7 +26,7 @@
   const glitchOpenWindowClass = 'glitchOpenWindowElement';
   const glitchButtonSrc = 'https://cdn.glitch.com/3fd2e3a7-3145-4c1d-9480-32a2e6a6963a%2Flogo-day.svg?1490800908258';
 
-  // get project name
+  // get project name from url
   const projectName = location.hostname.split('.')[0];
   
   // append button stylesheet
@@ -32,10 +35,9 @@
   buttonStylesheet.href = `${projectURL}/css/button.css`;
   document.head.appendChild(buttonStylesheet);
   
-  // append theme stylesheet if that values is given and append
+  // append theme stylesheet if that value is given and append
   const scriptElements = document.getElementsByTagName('script');
   [].forEach.call(scriptElements, scriptTag => {
-    // if the script is the glitch button script, attach appropriate stylesheet if given
     if ( scriptTag.getAttribute('src') && scriptTag.getAttribute('src').indexOf(projectURL) !== -1 ) {
       if ( scriptTag.dataset.style ) {
         var themeStylesheet = document.createElement('link');
@@ -46,70 +48,115 @@
     }
   });
   
-  // helper for finding button parent elements
+  // helper: finding a given element's parent that has a given selector
   const findParent = (el, sel) => {
-    while ( (el = el.parentElement) && !( (el.matches || el.matchesSelector).call(el,sel) ) );
+    while ( (el = el.parentElement) && !( (el.matches || el.matchesSelector || el.msMatchesSelector).call(el,sel) ) );
     return el;
   };
   
-  // add button to elements with with the glitchButton class
-  const buttonSpaces = document.getElementsByClassName(glitchClass);
+  // helper: close button windows
+  const closeOpenButtonWindows = () => {
+    const openButtonWindows = document.getElementsByClassName(glitchOpenWindowClass);
+      [].forEach.call(openButtonWindows, buttonWindow => {
+        buttonWindow.style.display = 'none';
+        resetContents(buttonWindow);
+      });
+  }
   
-  // event fired off when a button is clicked
+  // event: glitch fish button is clicked
   const onButtonClick = e => {
     const parent = findParent(e.target, '.' + glitchClass);
     const thisWindow = parent.getElementsByClassName(glitchOpenWindowClass)[0];
     thisWindow.style.display = ( thisWindow.style.display === 'none' ) ? 'block' : 'none';
+    resetContents(thisWindow);
   };
   
-  // event fired off when the user presses a key
+  // reset contents so all but embed code is visible
+  const resetContents = (container) => {
+    const projectInfo = container.getElementsByClassName('projectInfo')[0];
+    const projectActions = container.getElementsByClassName('projectActions')[0];
+    const projectEmbed = container.getElementsByClassName('projectEmbed')[0];
+    projectInfo.style.display = 'block';
+    projectActions.style.display = 'block';
+    projectEmbed.style.display = 'none';
+  }
+  
+  // show only embed code
+  const showEmbed = (container) => {
+    const projectInfo = container.getElementsByClassName('projectInfo')[0];
+    const projectActions = container.getElementsByClassName('projectActions')[0];
+    const projectEmbed = container.getElementsByClassName('projectEmbed')[0];
+    projectInfo.style.display = 'none';
+    projectActions.style.display = 'none';
+    projectEmbed.style.display = 'block';
+  }
+  
+  // event: key goes up anywhere on the app - if tabbed out of glitch button, hide all button windows
   window.onkeyup = e => {
-    // if tabbed and target isn't a glitch button, close all button windows
-    if ( e.keyCode === 9 && !findParent(document.activeElement, '.' + glitchClass) ) {
-      [].forEach.call(document.getElementsByClassName(glitchOpenWindowClass), buttonWindow => {
-        buttonWindow.style.display = 'none';
-      });
+    const parent = findParent(document.activeElement, '.' + glitchClass);
+    if ( e.keyCode === 9 && !parent ) {
+      closeOpenButtonWindows();
     }
   };
   
-  // event to close all open button windows if document window is clicked
+  // event: click happens anywhere on the app - if out of glitch button, hide all button windows
   window.onclick = e => {
     const parent = findParent(e.target, '.' + glitchClass);
     if (!parent) {
-      const openWindows = document.getElementsByClassName(glitchOpenWindowClass);
-      [].forEach.call(openWindows, openWindow => {
-        openWindow.style.display = 'none';
-      });
+      closeOpenButtonWindows();
     }
   };
   
   // get project info and do what we came here for - embed cool glitch buttons!
   axios.get(glitchEndpoint + projectName)
-    .then( ({ data }) => {
+    .then( ({data}) => {
       if ( !data ) {
         return null; 
       }
     
       const { domain, description, users } = data;
+    
+      // generate html for users list
       const usersCodeArray = users.map(user => {
-        return `<li><a href="${glitchProfileURL}${user.login}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton"><img width="25px" src="${user.avatarUrl}" alt="avatar of ${user.login}" />
-                    <span class="name">${user.login}</span></a></li>`;
-      });    
+        if ( !user.login ) {
+          return null;
+        }
+        
+        return `<li><a href="${glitchProfileURL}${user.login}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton"><img width="25px" src="${user.avatarUrl}" alt="avatar of ${user.login}" /> <span class="name">${user.login}</span></a></li>`;
+      });
+    
+      // generate html for the remix, view and embed buttons
       const remixLink = `<a class="buttonLinks remix" href="https://glitch.com/edit/#!/remix/${domain}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton">Remix on Glitch</a>`;
       const viewCodeLink = `<a class="buttonLinks viewCode" href="https://glitch.com/edit/#!/${domain}?utm_source=${domain}&utm_medium=button&utm_campaign=glitchButton">View Source</a>`;
-      
-      // generate the html for inside the button tooltip
+      const embedButton = `<button class="buttonLinks embed">Embed This App</button>`;
+      const embed = `<div class="embedGlitchCode"><label>Copy and paste this code anywhere you want to embed this app.<textarea><div class="glitch-embed-wrap" style="height: 486px; width: 100%;">
+  <iframe
+    allow="geolocation; microphone; camera; midi; encrypted-media"
+    src="https://glitch.com/embed/#!/embed/${domain}?previewSize=100&previewFirst=true&sidebarCollapsed=true"
+    alt="${domain} on Glitch"
+    style="height: 100%; width: 100%; border: 0;">
+  </iframe>
+</div></textarea>${viewCodeLink} to customize the embed under the "Share" menu.</label></div>`;
+    
+      // generate the html for inside the button tooltip using the above html generations
       const glitchProjectInfoHTML = 
         `<div class="project">
-          <div class="name">${domain}</div>
-          <p class="description">${description}</p>
-          <div class="users">
-            <ul>${usersCodeArray.join(' ')}</ul>
+          <div class="projectInfo">
+            <div class="name">${domain}</div>
+            <p class="description">${description}</p>
+            <div class="users">
+              <ul>${usersCodeArray.join(' ')}</ul>
+            </div>
           </div>
-          <div class="footer">${remixLink} ${viewCodeLink}</div>
+          <div class="projectActions">${remixLink}<br /> ${viewCodeLink}<br /> ${embedButton}</div>
+          <div class="projectEmbed">${embed}</div>
         </div>`;
     
+      const tooltipContent = `<span class="tooltip border"></span><span class="tooltip fill"></span>`;
+    
       // attach our button and window content to each button parent element
+      const buttonSpaces = document.getElementsByClassName(glitchClass);
+  
       [].forEach.call(buttonSpaces, space => {
         const button = document.createElement('button');
         button.className = glitchButtonClass;
@@ -118,13 +165,20 @@
         const openWindow = document.createElement('div');
         openWindow.className = glitchOpenWindowClass;
         openWindow.style.display = 'none';
-        openWindow.innerHTML = `${glitchProjectInfoHTML} <span class="tooltip border"></span><span class="tooltip fill"></span>`
-        
+        openWindow.innerHTML = `${glitchProjectInfoHTML} <span class="tooltip border"></span><span class="tooltip fill"></span>`;
+
         // event to fire off on button click
         button.onclick = onButtonClick;
         
         space.appendChild(button);
         space.appendChild(openWindow);
+        
+        // hide embed section        
+        // event to expand embed section
+        const embedButton = space.getElementsByClassName('embed')[0];
+        embedButton.onclick = e => {
+          showEmbed(space);
+        }
         
       });
     })
